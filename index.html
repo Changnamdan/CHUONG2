@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mật Mã Vương Quốc Realia - Toán 7 KNTT</title>
+  <style>
+    :root {
+      --bg-color: #f0f9ff;
+      --card-bg: #ffffff;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --secondary: #0284c7;
+      --secondary-hover: #0369a1;
+      --text-main: #0f172a;
+      --border-color: #1e293b;
+      --correct: #16a34a;
+      --wrong: #dc2626;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: linear-gradient(135deg, #e0f2fe 0%, #fef3c7 100%);
+      color: var(--text-main);
+      margin: 0; padding: 12px;
+      display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    }
+    .game-container {
+      width: 100%; max-width: 500px;
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      padding: 20px; position: relative; overflow: hidden;
+    }
+    .hidden { display: none !important; }
+    h1, h2, h3 { text-align: center; margin-top: 0; color: #0369a1; font-weight: 800; }
+    h1 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.5px; color: #b45309; }
+    h2 { font-size: 20px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 8px; }
+    .btn {
+      display: block; width: 100%; padding: 14px; margin: 12px 0;
+      background: var(--primary); color: #ffffff; font-size: 17px; font-weight: bold;
+      border: 2px solid var(--border-color); border-radius: 14px;
+      cursor: pointer; text-align: center; box-shadow: 0 4px 0 var(--border-color);
+      transition: all 0.15s ease;
+    }
+    .btn:active { transform: translateY(4px); box-shadow: none; }
+    .btn-secondary { background: var(--secondary); }
+    .btn-secondary:hover { background: var(--secondary-hover); }
+    .btn-success { background: var(--correct); }
+    .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0; }
+    .avatar-item {
+      font-size: 32px; text-align: center; padding: 10px; border: 2px solid #cbd5e1;
+      border-radius: 50%; cursor: pointer; background: #f8fafc; transition: 0.2s;
+    }
+    .avatar-item.selected { border-color: var(--primary); background: #fef3c7; transform: scale(1.1); box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+    .class-card {
+      border: 2px solid var(--border-color); border-radius: 14px; padding: 12px;
+      margin: 8px 0; background: #f0f9ff; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s;
+    }
+    .class-card.selected { background: #fef3c7; border-color: var(--primary); font-weight: bold; transform: scale(1.02); }
+    .input-group { margin: 12px 0; }
+    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 15px; }
+    .input-group input {
+      width: 100%; padding: 12px; border: 2px solid var(--border-color);
+      border-radius: 12px; font-size: 16px; outline: none; background: #fff;
+    }
+    .hud { display: flex; justify-content: space-between; font-weight: bold; font-size: 15px; margin-bottom: 12px; background: #e0f2fe; padding: 10px 14px; border-radius: 12px; border: 1px solid #bae6fd; }
+    .option-btn {
+      background: #ffffff; border: 2px solid var(--border-color); padding: 12px 16px;
+      border-radius: 14px; margin: 8px 0; text-align: left; font-size: 15px; cursor: pointer;
+      line-height: 1.4; transition: 0.15s; display: flex; align-items: center; justify-content: space-between;
+    }
+    .option-btn:hover { background: #f0f9ff; }
+    .option-btn.selected { background: #e0f2fe; border-color: var(--secondary); font-weight: bold; box-shadow: 0 2px 0 var(--secondary); }
+    .feedback-box {
+      border-radius: 16px; padding: 16px; margin-top: 15px; border: 2px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); animation: slideUp 0.3s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .feedback-correct { background: #f0fdf4; border-color: var(--correct); color: #166534; }
+    .feedback-wrong { background: #fef2f2; border-color: var(--wrong); color: #991b1b; }
+    .badge-icon { font-size: 56px; text-align: center; display: block; margin: 12px 0; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+    .tf-row { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+    .tf-btns { display: flex; gap: 6px; }
+    .tf-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid #94a3b8; background: #fff; font-weight: bold; cursor: pointer; }
+    .tf-btn.active-true { background: #22c55e; color: #fff; border-color: #16a34a; }
+    .tf-btn.active-false { background: #ef4444; color: #fff; border-color: #dc2626; }
+  </style>
+</head>
+<body>
+
+<div class="game-container">
+  <!-- MAN HINH 1: TRANG CHU -->
+  <div id="screen-welcome">
+    <div style="font-size: 64px; text-align:center; margin-bottom:10px;">🏰</div>
+    <h1>MẬT MÃ VƯƠNG QUỐC REALIA</h1>
+    <p style="text-align:center; font-weight:bold; color: #475569; margin-bottom:20px;">Hành Trình Hiệp Sĩ Toán Học • Chương II: Số Thực (Toán 7 KNTT)</p>
+    
+    <div style="background:#f1f5f9; padding:12px; border-radius:14px; text-align:center; margin: 15px 0; border: 1px dashed #94a3b8; font-size:14px;">
+      <b>🎮 Thiết kế trò chơi ôn tập cá nhân</b><br>
+      • 4 Ải chơi • 2 Mức độ (Dễ & Thường)<br>
+      • Phản hồi từng bước & Phân tích bẫy lỗi sai
+    </div>
+
+    <button class="btn" onclick="goToScreen('screen-story')">▶ Bắt Đầu Hành Trình</button>
+    <button class="btn btn-secondary" onclick="openTeacherLink()">📊 Trang Thống Kê Giáo Viên →</button>
+  </div>
+
+  <!-- MAN HINH 2: COT TRUYEN -->
+  <div id="screen-story" class="hidden">
+    <h2>📜 Cốt Truyện Vương Quốc</h2>
+    <div style="font-size: 56px; text-align:center; margin: 15px 0;" id="story-emoji">🏰</div>
+    <p id="story-text" style="font-size: 16px; line-height: 1.6; min-height: 110px; background:#fffbeb; padding:16px; border-radius:14px; border:1px solid #fcd34d;"></p>
+    <button class="btn" onclick="nextStory()">Tiếp tục ➔</button>
+  </div>
+
+  <!-- MAN HINH 3: TAO NHAN VAT -->
+  <div id="screen-character" class="hidden">
+    <h2>👤 Tạo Hiệp Sĩ Của Em</h2>
+    <div class="input-group">
+      <label>Tên nhân vật:</label>
+      <input type="text" id="player-name" placeholder="Ví dụ: Minh Anh">
+    </div>
+    <div class="input-group">
+      <label>Lớp học:</label>
+      <input type="text" id="player-class" placeholder="Ví dụ: 7A1">
+    </div>
+
+    <label><b>Chọn lớp nhân vật (Đặc quyền):</b></label>
+    <div class="class-card selected" onclick="selectClass(this, 'Chiến binh', 7)">
+      <span style="font-size:28px;">⚔️</span>
+      <div><b>Chiến binh:</b> Giáp bền (Có 7 tim HP)</div>
+    </div>
+    <div class="class-card" onclick="selectClass(this, 'Pháp sư', 5)">
+      <span style="font-size:28px;">🔮</span>
+      <div><b>Pháp sư:</b> Thần chú (Nhận thêm điểm thưởng)</div>
+    </div>
+    <div class="class-card" onclick="selectClass(this, 'Thợ rèn', 5)">
+      <span style="font-size:28px;">🔨</span>
+      <div><b>Thợ rèn:</b> Khiên rèn (Sai câu đầu không mất tim)</div>
+    </div>
+
+    <label style="margin-top:10px; display:block;"><b>Chọn hình đại diện:</b></label>
+    <div class="avatar-grid">
+      <div class="avatar-item selected" onclick="selectAvatar(this)">🦊</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🐯</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🐼</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🐸</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🦁</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🐨</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🐧</div>
+      <div class="avatar-item" onclick="selectAvatar(this)">🦄</div>
+    </div>
+    <button class="btn" onclick="finishCharacter()">Vào Bản Đồ Ải Chơi ⚔️</button>
+  </div>
+
+  <!-- MAN HINH 4: BAN DO AI CHOI -->
+  <div id="screen-map" class="hidden">
+    <h2>🗺️ Bản Đồ Thử Thách</h2>
+    <p style="text-align:center; font-size:14px; color:#475569;">Chọn Ải chơi và Mức độ phù hợp để chinh phục Huy hiệu:</p>
+
+    <!-- AI 1 -->
+    <div style="background:#e0f2fe; padding:12px; border-radius:16px; margin:10px 0; border:2px solid #0284c7;">
+      <b style="font-size:16px; color:#0369a1;">🏰 Ải 1: Thung lũng Thập Phân</b><br>
+      <small style="color:#475569;">Bài 5: Số thập phân, Làm tròn & Ước lượng</small>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(1, 'Dễ')">⭐ Dễ (10 câu)</button>
+        <button class="btn btn-secondary" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(1, 'Thường')">🔥 Thường (10 câu)</button>
+      </div>
+    </div>
+
+    <!-- AI 2 -->
+    <div style="background:#dcfce7; padding:12px; border-radius:16px; margin:10px 0; border:2px solid #22c55e;">
+      <b style="font-size:16px; color:#15803d;">🌲 Ải 2: Khu Rừng Căn Bậc Hai</b><br>
+      <small style="color:#475569;">Bài 6: Số vô tỉ & Căn bậc hai số học</small>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(2, 'Dễ')">⭐ Dễ (10 câu)</button>
+        <button class="btn btn-secondary" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(2, 'Thường')">🔥 Thường (10 câu)</button>
+      </div>
+    </div>
+
+    <!-- AI 3 -->
+    <div style="background:#fef3c7; padding:12px; border-radius:16px; margin:10px 0; border:2px solid #f59e0b;">
+      <b style="font-size:16px; color:#b45309;">🏛️ Ải 3: Mê Cung Trục Số Thực</b><br>
+      <small style="color:#475569;">Bài 7: Tập hợp ℝ, So sánh & Trục số</small>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(3, 'Dễ')">⭐ Dễ (10 câu)</button>
+        <button class="btn btn-secondary" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(3, 'Thường')">🔥 Thường (10 câu)</button>
+      </div>
+    </div>
+
+    <!-- AI 4 -->
+    <div style="background:#fae8ff; padding:12px; border-radius:16px; margin:10px 0; border:2px solid #c084fc;">
+      <b style="font-size:16px; color:#7e22ce;">🏔️ Ải 4: Đỉnh Núi Giá Trị Tuyệt Đối</b><br>
+      <small style="color:#475569;">Bài 7: Giá trị tuyệt đối |a| & Ôn tập chương</small>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(4, 'Dễ')">⭐ Dễ (10 câu)</button>
+        <button class="btn btn-secondary" style="padding:10px; font-size:14px; margin:0;" onclick="startQuiz(4, 'Thường')">🔥 Thường (10 câu)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAN HINH 5: THU THACH -->
+  <div id="screen-quiz" class="hidden">
+    <div class="hud">
+      <span id="hud-player">🦊 Hiệp sĩ</span>
+      <span id="hud-hp">❤️ x5</span>
+      <span id="hud-progress">Câu 1/10</span>
+    </div>
+
+    <h3 id="quiz-question-title" style="text-align:left; font-size:16px; line-height:1.5; min-height:45px; color:#1e293b; margin:10px 0;"></h3>
+    <div id="quiz-options"></div>
+
+    <button class="btn" id="btn-submit-answer" onclick="submitAnswer()">Xác nhận đáp án</button>
+
+    <!-- KHUNG PHAN HOI PHUONG PHAP DANG STEP BY STEP & COMMON ERRORS -->
+    <div id="feedback-modal" class="feedback-box hidden">
+      <h3 id="feedback-title" style="margin:0 0 10px 0; text-align:left; font-size:18px;"></h3>
+      <div id="feedback-solution" style="font-size:14px; line-height:1.5; margin-bottom:10px;"></div>
+      <div id="feedback-error" style="font-size:13px; color:#991b1b; background:#fff1f2; padding:10px; border-radius:10px; border:1px solid #fecdd3;"></div>
+      <button class="btn" style="margin-top:12px; padding:12px;" onclick="nextQuestion()">Câu tiếp theo ➔</button>
+    </div>
+  </div>
+
+  <!-- MAN HINH 6: TONG KET -->
+  <div id="screen-summary" class="hidden" style="text-align:center;">
+    <h2>🏆 HOÀN THÀNH CHINH PHỤC!</h2>
+    <span class="badge-icon" id="summary-badge">🎖️</span>
+    <h3 id="summary-title" style="color:#d97706; margin-bottom:8px;">Huy hiệu Bậc Thầy Thập Phân</h3>
+    <p id="summary-stats" style="font-size:15px; line-height:1.6; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"></p>
+    <div style="background:#f0fdf4; padding:10px; border-radius:12px; color:#15803d; font-weight:bold; margin:12px 0; font-size:14px;">
+      ✓ Kết quả bài làm đã được tự động lưu về Trang Thống Kê Giáo Viên!
+    </div>
+    <button class="btn" onclick="goToScreen('screen-map')">Về Bản Đồ Ải Chơi</button>
+  </div>
+</div>
+
+<script>
+  // GOOGLE APPS SCRIPT WEB APP URL (THAY BANG LINK GOOGLE APPS SCRIPT CUA BAN)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxi5ILG7rDMPyxXArDqu0enJXWWmeTFwjttdy8DltW0V3KAUyyhf9VjBpNagpCczbnoOw/exec";
+
+  // NGAN HANG 80 CAU HOI PARSED TU FILE V5
+  const QUESTION_BANK = {
+  "1_Dễ": [
+    {
+      "id": 1,
+      "type": "mc",
+      "t": "Trong các phân số sau, phân số nào viết được dưới dạng số thập phân hữu hạn?",
+      "o": [
+        "A. 1/3",
+        "B. 3/4",
+        "C. 5/6",
+        "D. 7/9"
+      ],
+      "a": 1,
+      "topic": 1,
+      "sol": "Bước 1: Rút gọn các phân số về dạng tối giản với mẫu dương.<br>Bước 2: Phân tích mẫu số ra thừa số nguyên tố: Mẫu số 4 = 2^2 (chỉ có thừa số 2).<br>Bước 3: Theo quy tắc, phân số tối giản có mẫu không chứa thừa số nguyên tố nào khác 2 và 5 sẽ viết được dưới dạng số thập phân hữu hạn.<br>👉 Chọn B (3/4 = 0,75).",
+      "err": "Học sinh dễ quên rút gọn phân số trước khi xét mẫu, hoặc nhầm lẫn giữa điều kiện số thập phân hữu hạn và vô hạn tuần hoàn."
+    },
+    {
+      "id": 2,
+      "type": "tf",
+      "t": "Xác định tính Đúng (Đ) hoặc Sai (S) cho từng mệnh đề sau về số thập phân:",
+      "o": [
+        "a) Phân số 2/5 viết được dưới dạng số thập phân hữu hạn.",
+        "b) Phân số 1/6 viết được dưới dạng số thập phân hữu hạn.",
+        "c) Chu kỳ của số 0,1232323... là 23.",
+        "d) Số 0,45 là số thập phân vô hạn tuần hoàn."
+      ],
+      "a": 0,
+      "topic": 1,
+      "sol": "a) ĐÚNG. Mẫu số 5 chỉ chứa thừa số 5, 2/5 = 0,4.<br>b) SAI. Mẫu 6 = 2 x 3 (có thừa số 3 khác 2 và 5) nên 1/6 = 0,1666... là vô hạn tuần hoàn.<br>c) ĐÚNG. Nhóm chữ số 23 lặp đi lặp lại vô hạn bắt đầu sau chữ số 1 nên chu kỳ là 23, viết là 0,1(23).<br>d) SAI. Số 0,45 có hữu hạn chữ số sau dấu phẩy (2 chữ số) nên là số thập phân hữu hạn.",
+      "err": "Học sinh hay nhầm lẫn số có nhiều chữ số sau dấu phẩy với số vô hạn tuần hoàn nếu không nhìn kỹ dấu gạch ngang chu kỳ hoặc dấu ba chấm."
+    },
+    {
+      "id": 3,
+      "type": "fill",
+      "t": "Cho phân số 5/11. Hãy viết phân số này dưới dạng số thập phân và xác định chu kỳ của nó.",
+      "o": [
+        "Đáp án điền: 0,(45) hoặc 0,4545... ; Chu kỳ là 45."
+      ],
+      "a": "Đáp án điền: 0,(45) hoặc 0,4545... ; Chu kỳ là 45.",
+      "topic": 1,
+      "sol": "Bước 1: Thực hiện phép chia 5 cho 11: 5 : 11 = 0,454545...<br>Bước 2: Nhận xét nhóm chữ số 45 lặp lại liên tục.<br>Bước 3: Viết gọn dưới dạng chu kỳ: 0,(45). Chu kỳ là 45.",
+      "err": "Học sinh hay nhầm chu kỳ là 4 hoặc 54 do ghi sai thứ tự dư khi chia."
+    },
+    {
+      "id": 4,
+      "type": "match",
+      "t": "Hãy nối phân số ở Cột A với số thập phân tương ứng ở Cột B:",
+      "o": [
+        "Cột A: 1) 3/5 | 2) 7/3 | 3) 1/4 | 4) 2/9\nCột B: A) 0,25 | B) 0,6 | C) 0,(2) | D) 2,(3)"
+      ],
+      "a": 0,
+      "topic": 1,
+      "sol": "Ghép đúng:<br>• 1 - B (3/5 = 0,6)<br>• 2 - D (7/3 = 2,333... = 2,(3))<br>• 3 - A (1/4 = 0,25)<br>• 4 - C (2/9 = 0,222... = 0,(2))",
+      "err": "Học sinh dễ thực hiện chia sai nhẩm khiến ghép sai cặp phân số và số thập phân."
+    },
+    {
+      "id": 5,
+      "type": "drag",
+      "t": "Phân loại các số thập phân sau vào 2 nhóm thích hợp: 0,15 ; 0,333... ; 2,75 ; -1,(6) ; 4,125 ; 0,121212...",
+      "o": [
+        "Nhóm 1 (Số thập phân hữu hạn): 0,15 ; 2,75 ; 4,125\nNhóm 2 (Số thập phân vô hạn tuần hoàn): 0,333... ; -1,(6) ; 0,121212..."
+      ],
+      "a": 0,
+      "topic": 1,
+      "sol": "Bước 1: Kiểm tra các số có phần thập phân dừng lại (hữu hạn chữ số) -> Xếp vào Nhóm 1.<br>Bước 2: Kiểm tra các số có dấu ba chấm hoặc mở đóng ngoặc chu kỳ -> Xếp vào Nhóm 2.",
+      "err": "Học sinh hay xếp nhầm các số mang dấu âm như -1,(6) sang nhóm riêng do không chú ý quy tắc phân loại."
+    },
+    {
+      "id": 6,
+      "type": "order",
+      "t": "Hãy sắp xếp các bước sau theo đúng thứ tự để làm tròn số 4,3561 đến hàng phần trăm:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước A: Xác định chữ số hàng làm tròn là chữ số 5 (hàng phần trăm).\n2. Bước B: Nhìn sang chữ số ngay bên phải hàng làm tròn là chữ số 6.\n3. Bước C: Vì 6 >= 5 nên ta tăng chữ số hàng làm tròn lên 1 đơn vị (5 + 1 = 6).\n4. Bước D: Bỏ các chữ số bên phải hàng làm tròn, thu được kết quả 4,36."
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "Thứ tự chuẩn: A -> B -> C -> D.",
+      "err": "Học sinh hay quên quy tắc tăng 1 đơn vị khi chữ số ngay bên phải lớn hơn hoặc bằng 5, dẫn đến giữ nguyên 4,35."
+    },
+    {
+      "id": 7,
+      "type": "mc",
+      "t": "Làm tròn số 12,345 đến hàng phần mười ta được kết quả là:",
+      "o": [
+        "A. 12,3",
+        "B. 12,4",
+        "C. 12,35",
+        "D. 12,0"
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "Bước 1: Hàng phần mười là chữ số 3.<br>Bước 2: Chữ số ngay bên phải là 4 (< 5).<br>Bước 3: Giữ nguyên chữ số 3 và bỏ các chữ số phía sau.<br>👉 Chọn A (12,3).",
+      "err": "Học sinh hay làm tròn nhầm sang hàng phần trăm (12,35) hoặc làm tròn tăng lên thành 12,4."
+    },
+    {
+      "id": 8,
+      "type": "fill",
+      "t": "Ước lượng tích 19,8 × 4,1 bằng cách làm tròn các thừa số đến hàng đơn vị.",
+      "o": [
+        "Đáp án điền: 80"
+      ],
+      "a": "Đáp án điền: 80",
+      "topic": 2,
+      "sol": "Bước 1: Làm tròn 19,8 đến hàng đơn vị được 20 (vì chữ số bên phải là 8 >= 5).<br>Bước 2: Làm tròn 4,1 đến hàng đơn vị được 4 (vì chữ số bên phải là 1 < 5).<br>Bước 3: Tính tích ước lượng: 20 × 4 = 80.",
+      "err": "Học sinh làm tròn sai 19,8 thành 19 dẫn đến tính ước lượng ra 76."
+    },
+    {
+      "id": 9,
+      "type": "tf",
+      "t": "Xác định tính Đúng (Đ) hoặc Sai (S) cho các phép ước lượng kết quả sau:",
+      "o": [
+        "a) 49,5 + 50,2 ≈ 100",
+        "b) 99,8 : 9,9 ≈ 10",
+        "c) 10,3 × 2,9 ≈ 20",
+        "d) 15,1 - 4,8 ≈ 10"
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "a) ĐÚNG. 50 + 50 = 100.<br>b) ĐÚNG. 100 : 10 = 10.<br>c) SAI. 10 × 3 = 30 (chứ không phải 20).<br>d) ĐÚNG. 15 - 5 = 10.",
+      "err": "Học sinh nhẩm sai phép nhân ước lượng ở câu c (10 × 3)."
+    },
+    {
+      "id": 10,
+      "type": "mc",
+      "t": "Số thập phân 0,75 được viết dưới dạng phân số tối giản là:",
+      "o": [
+        "A. 75/100",
+        "B. 3/4",
+        "C. 4/3",
+        "D. 1/4"
+      ],
+      "a": 1,
+      "topic": 2,
+      "sol": "Bước 1: Viết 0,75 = 75/100.<br>Bước 2: Chia cả tử và mẫu cho ƯCLN(75, 100) = 25.<br>Bước 3: 75:25 / 100:25 = 3/4.<br>👉 Chọn B (3/4).",
+      "err": "Học sinh dừng lại ở 75/100 mà chưa rút gọn về phân số tối giản."
+    }
+  ],
+  "1_Thường": [
+    {
+      "id": 11,
+      "type": "mc",
+      "t": "Làm tròn số 12 591,27 với độ chính xác d = 0,05 nghĩa là ta làm tròn số đó đến hàng nào?",
+      "o": [
+        "A. Hàng đơn vị",
+        "B. Hàng phần mười",
+        "C. Hàng phần trăm",
+        "D. Hàng chục"
+      ],
+      "a": 1,
+      "topic": 1,
+      "sol": "Bước 1: Độ chính xác d = 0,05 thuộc hàng phần trăm (0,01).<br>Bước 2: Theo quy tắc, khi độ chính xác d ở hàng phần trăm thì ta làm tròn số đến hàng ngay phía trên nó 1 hàng, tức là hàng phần mười.<br>👉 Chọn B (Hàng phần mười).",
+      "err": "Học sinh rất hay nhầm lẫn làm tròn trực tiếp ở hàng phần trăm theo tên hàng của d."
+    },
+    {
+      "id": 12,
+      "type": "fill",
+      "t": "Làm tròn số 12 591,27 với độ chính xác d = 0,05 thu được kết quả là bao nhiêu?",
+      "o": [
+        "Đáp án điền: 12 591,3"
+      ],
+      "a": "Đáp án điền: 12 591,3",
+      "topic": 1,
+      "sol": "Bước 1: Độ chính xác d = 0,05 -> Làm tròn đến hàng phần mười (chữ số 2).<br>Bước 2: Chữ số bên phải chữ số 2 là 7 >= 5.<br>Bước 3: Tăng 2 lên 1 đơn vị thành 3, bỏ chữ số 7 phía sau -> 12 591,3.",
+      "err": "Học sinh làm tròn nhầm thành 12 591,25 hoặc giữ nguyên 12 591,2."
+    },
+    {
+      "id": 13,
+      "type": "match",
+      "t": "Ghép các phép tính ở Cột A với kết quả làm tròn đến hàng phần trăm tương ứng ở Cột B:",
+      "o": [
+        "Cột A: 1) 10/3 | 2) 7/6 | 3) 5/11 | 4) 14/9\nCột B: A) 1,17 | B) 0,45 | C) 1,56 | D) 3,33"
+      ],
+      "a": 0,
+      "topic": 1,
+      "sol": "Ghép đúng:<br>• 1 - D (10/3 = 3,333... ≈ 3,33)<br>• 2 - A (7/6 = 1,166... ≈ 1,17)<br>• 3 - B (5/11 = 0,4545... ≈ 0,45)<br>• 4 - C (14/9 = 1,555... ≈ 1,56)",
+      "err": "Học sinh quên tăng 1 đơn vị ở câu 7/6 (1,166... làm tròn thành 1,17) hay 14/9 (1,555... làm tròn thành 1,56)."
+    },
+    {
+      "id": 14,
+      "type": "mc",
+      "t": "Tính giá trị biểu thức A = 0,(3) + 0,(6) dưới dạng phân số tối giản:",
+      "o": [
+        "A. 0,9",
+        "B. 9/10",
+        "C. 1",
+        "D. 0,(9)"
+      ],
+      "a": 2,
+      "topic": 1,
+      "sol": "Bước 1: Chuyển 0,(3) = 3/9 = 1/3.<br>Bước 2: Chuyển 0,(6) = 6/9 = 2/3.<br>Bước 3: Cộng hai phân số: A = 1/3 + 2/3 = 3/3 = 1.<br>👉 Chọn C (1).",
+      "err": "Học sinh hay chọn A (0,9) hoặc B (9/10) do tính nhầm 0,3 + 0,6 = 0,9."
+    },
+    {
+      "id": 15,
+      "type": "tf",
+      "t": "Xét tính Đúng/Sai của các phát biểu về quy tắc làm tròn số nguyên lớn:",
+      "o": [
+        "a) Làm tròn số 45 670 đến hàng nghìn ta được 46 000.",
+        "b) Làm tròn số 9 821 đến hàng trăm ta được 9 800.",
+        "c) Làm tròn số 125 000 đến hàng chục nghìn ta được 130 000.",
+        "d) Khi làm tròn số nguyên, các chữ số bị bỏ đi được thay thế bằng các chữ số 0."
+      ],
+      "a": 0,
+      "topic": 1,
+      "sol": "a) ĐÚNG. Chữ số hàng nghìn là 5, bên phải là 6 >= 5 nên tăng thành 46 000.<br>b) ĐÚNG. Chữ số hàng trăm là 8, bên phải là 2 < 5 nên giữ nguyên 9 800.<br>c) ĐÚNG. Chữ số hàng chục nghìn là 2, bên phải là 5 >= 5 nên làm tròn thành 130 000.<br>d) ĐÚNG. Quy tắc làm tròn số nguyên đòi hỏi thay các chữ số sau hàng làm tròn bằng số 0.",
+      "err": "Học sinh khi làm tròn số nguyên hay quên thêm các số 0 vào sau hàng làm tròn (ví dụ làm tròn 45 670 thành 46)."
+    },
+    {
+      "id": 16,
+      "type": "drag",
+      "t": "Phân loại các số sau vào 2 nhóm: 'Viết được dưới dạng SOTP hữu hạn' và 'Viết được dưới dạng SOTP vô hạn tuần hoàn': 7/20 ; 11/15 ; 9/40 ; 4/11 ; 13/50 ; 5/6",
+      "o": [
+        "Nhóm 1 (SOTP hữu hạn): 7/20 (mẫu 20 = 2^2 x 5) ; 9/40 (mẫu 40 = 2^3 x 5) ; 13/50 (mẫu 50 = 2 x 5^2)\nNhóm 2 (SOTP vô hạn tuần hoàn): 11/15 (mẫu 15 có 3) ; 4/11 (mẫu 11) ; 5/6 (mẫu 6 có 3)"
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "Bước 1: Xét mẫu số sau khi rút gọn tối giản.<br>Bước 2: Mẫu chỉ có thừa số 2 và 5 xếp nhóm 1. Mẫu có chứa thừa số nguyên tố khác 2, 5 xếp nhóm 2.",
+      "err": "Học sinh chưa kiểm tra tính tối giản của phân số trước khi phân tích mẫu."
+    },
+    {
+      "id": 17,
+      "type": "order",
+      "t": "Sắp xếp các bước để giải bài toán ước lượng diện tích một khu vườn hình chữ nhật có chiều dài 19,8 m và chiều rộng 10,2 m:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Làm tròn chiều dài 19,8 m đến hàng đơn vị ta được xấp xỉ 20 m.\n2. Bước 2: Làm tròn chiều rộng 10,2 m đến hàng đơn vị ta được xấp xỉ 10 m.\n3. Bước 3: Tính diện tích ước lượng theo công thức S ≈ 20 × 10 = 200 m².\n4. Bước 4: Kết luận diện tích khu vườn xấp xỉ 200 m²."
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3 -> Bước 4.",
+      "err": "Học sinh hay tính diện tích chính xác trước (19,8 x 10,2 = 201,96) rồi mới làm tròn kết quả, trái với yêu cầu ước lượng nhanh."
+    },
+    {
+      "id": 18,
+      "type": "fill",
+      "t": "Tìm chữ số hàng phần trăm của số thập phân vô hạn tuần hoàn A = 3,12(45).",
+      "o": [
+        "Đáp án điền: 2"
+      ],
+      "a": "Đáp án là 2.",
+      "topic": 2,
+      "sol": "Bước 1: Phân tích số A = 3,12454545...<br>Bước 2: Chữ số sau dấu phẩy thứ nhất (hàng phần mười) là 1.<br>Bước 3: Chữ số sau dấu phẩy thứ hai (hàng phần trăm) là 2.<br>👉 Đáp án là 2.",
+      "err": "Học sinh nhầm lẫn thứ tự chữ số sau dấu phẩy, nhầm chữ số hàng phần trăm với chữ số thuộc chu kỳ (4 hoặc 5)."
+    },
+    {
+      "id": 19,
+      "type": "mc",
+      "t": "Số A = 0,1010010001... (số chữ số 0 nằm giữa các số 1 tăng dần) là loại số thập phân nào?",
+      "o": [
+        "A. Số thập phân hữu hạn",
+        "B. Số thập phân vô hạn tuần hoàn",
+        "C. Số thập phân vô hạn không tuần hoàn",
+        "D. Phân số"
+      ],
+      "a": 2,
+      "topic": 2,
+      "sol": "Bước 1: Quan sát quy luật: Dãy số kéo dài vô hạn nhưng không có nhóm chữ số nào lặp đi lặp lại cố định.<br>Bước 2: Vậy A là số thập phân vô hạn không tuần hoàn (số vô tỉ).<br>👉 Chọn C.",
+      "err": "Học sinh thấy có quy luật tăng số 0 nên nhầm là tuần hoàn."
+    },
+    {
+      "id": 20,
+      "type": "tf",
+      "t": "Xét tính Đúng/Sai của các nhận định sau:",
+      "o": [
+        "a) Phân số 6/15 viết được dưới dạng số thập phân hữu hạn.",
+        "b) Mọi số thập phân vô hạn đều là số vô hạn tuần hoàn.",
+        "c) 0,1(6) = 1/6.",
+        "d) Khi làm tròn số 0,049 đến hàng phần mười ta được 0,1. 🌲 ẢI 2: KHU RỪNG CĂN BẬC HAI"
+      ],
+      "a": 0,
+      "topic": 2,
+      "sol": "a) ĐÚNG. 6/15 = 2/5 (tối giản mẫu là 5) nên là số thập phân hữu hạn (0,4).<br>b) SAI. Có số thập phân vô hạn không tuần hoàn.<br>c) ĐÚNG. 1/6 = 0,1666... = 0,1(6).<br>d) SAI. Chữ số hàng phần mười là 0, bên phải là 4 < 5 nên làm tròn thành 0,0.",
+      "err": "Học sinh hay quên rút gọn 6/15 nên thấy mẫu 15 có 3 rồi vội kết luận là vô hạn tuần hoàn ở câu a."
+    }
+  ],
+  "2_Dễ": [
+    {
+      "id": 21,
+      "type": "mc",
+      "t": "Căn bậc hai số học của số 81 là:",
+      "o": [
+        "A. 9",
+        "B. -9",
+        "C. 9 và -9",
+        "D. 81"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Bước 1: Theo định nghĩa, căn bậc hai số học của số a không âm (a >= 0) là số x không âm sao cho x^2 = a.<br>Bước 2: Vì 9 >= 0 và 9^2 = 81 nên căn bậc hai số học của 81 là 9 (kí hiệu √81 = 9).<br>👉 Chọn A (9).",
+      "err": "Học sinh hay nhầm lẫn giữa 'căn bậc hai số học' (chỉ lấy giá trị không âm) với 'căn bậc hai' (gồm hai giá trị đối nhau 9 và -9)."
+    },
+    {
+      "id": 22,
+      "type": "fill",
+      "t": "Một mảnh đất hình vuông có diện tích 49 m². Độ dài cạnh của mảnh đất đó bằng bao nhiêu mét?",
+      "o": [
+        "Đáp án điền: 7"
+      ],
+      "a": "Đáp án là 7 m.",
+      "topic": 3,
+      "sol": "Bước 1: Gọi độ dài cạnh mảnh đất hình vuông là x (m, x > 0).<br>Bước 2: Diện tích hình vuông là x² = 49.<br>Bước 3: Suy ra x = √49 = 7 (m).<br>👉 Đáp án là 7 m.",
+      "err": "Học sinh ghi nhầm đáp án là 49 : 4 = 12,25 m (nhầm công thức diện tích với chu vi)."
+    },
+    {
+      "id": 23,
+      "type": "tf",
+      "t": "Xác định tính Đúng (Đ) hoặc Sai (S) của các đẳng thức chứa căn bậc hai sau:",
+      "o": [
+        "a) √16 = 4",
+        "b) √(-25) = -5",
+        "c) √0 = 0",
+        "d) √((-3)²) = 3"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "a) ĐÚNG. Vì 4² = 16 và 4 > 0.<br>b) SAI. Số âm (-25) không có căn bậc hai số học trong tập số thực.<br>c) ĐÚNG. √0 = 0.<br>d) ĐÚNG. √((-3)²) = √9 = 3.",
+      "err": "Học sinh hay sai ở câu b vì tưởng √(-25) = -5, quên rằng số dưới dấu căn phải không âm."
+    },
+    {
+      "id": 24,
+      "type": "match",
+      "t": "Ghép số a ở Cột A với căn bậc hai số học √a tương ứng ở Cột B:",
+      "o": [
+        "Cột A: 1) a = 0,04 | 2) a = 121 | 3) a = 25/36 | 4) a = 100\nCột B: A) 5/6 | B) 10 | C) 0,2 | D) 11"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Ghép đúng:<br>• 1 - C (√0,04 = 0,2)<br>• 2 - D (√121 = 11)<br>• 3 - A (√(25/36) = 5/6)<br>• 4 - B (√100 = 10)",
+      "err": "Học sinh hay tính nhầm √0,04 thành 0,02."
+    },
+    {
+      "id": 25,
+      "type": "drag",
+      "t": "Phân loại các số sau vào 2 nhóm: 'Số hữu tỉ' và 'Số vô tỉ': √9 ; √2 ; 3/5 ; π ; -1,25 ; √7",
+      "o": [
+        "Nhóm 1 (Số hữu tỉ): √9 (= 3) ; 3/5 ; -1,25\nNhóm 2 (Số vô tỉ): √2 ; π ; √7"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Bước 1: Rút gọn các biểu thức dưới dấu căn: √9 = 3 (số hữu tỉ).<br>Bước 2: Các số căn không chính phương (√2, √7) và số π là số thập phân vô hạn không tuần hoàn nên thuộc Nhóm số vô tỉ.",
+      "err": "Học sinh thấy √9 có dấu căn nên vội vàng xếp vào nhóm số vô tỉ."
+    },
+    {
+      "id": 26,
+      "type": "order",
+      "t": "Hãy sắp xếp các bước sau để tìm x không âm biết √x = 5:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước A: Điều kiện xác định: x ≥ 0.\n2. Bước B: Bình phương hai vế của phương trình: (√x)² = 5².\n3. Bước C: Ta được x = 25.\n4. Bước D: Kiểm tra điều kiện x = 25 ≥ 0 (Thỏa mãn). Kết luận x = 25."
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Thứ tự chuẩn: A -> B -> C -> D.",
+      "err": "Học sinh hay tính nhầm x = √5 thay vì bình phương vế lên thành x = 25."
+    },
+    {
+      "id": 27,
+      "type": "mc",
+      "t": "Số nào sau đây là số vô tỉ?",
+      "o": [
+        "A. √4",
+        "B. √1/9",
+        "C. √5",
+        "D. 0"
+      ],
+      "a": 2,
+      "topic": 3,
+      "sol": "Bước 1: Tính √4 = 2 (hữu tỉ).<br>Bước 2: Tính √(1/9) = 1/3 (hữu tỉ).<br>Bước 3: √5 = 2,2360679... là số thập phân vô hạn không tuần hoàn -> Số vô tỉ.<br>👉 Chọn C (√5).",
+      "err": "Học sinh chưa tính căn bậc hai của các phân số/số chính phương."
+    },
+    {
+      "id": 28,
+      "type": "fill",
+      "t": "Tính giá trị của biểu thức A = √36 + √64 - √100.",
+      "o": [
+        "Đáp án điền: 4"
+      ],
+      "a": "Đáp án là 4.",
+      "topic": 3,
+      "sol": "Bước 1: Tính √36 = 6.<br>Bước 2: Tính √64 = 8.<br>Bước 3: Tính √100 = 10.<br>Bước 4: Thay vào A = 6 + 8 - 10 = 14 - 10 = 4.<br>👉 Đáp án là 4.",
+      "err": "Học sinh lấy 36 + 64 - 100 = 0 rồi tính √0 = 0 (gộp dấu căn sai quy tắc)."
+    },
+    {
+      "id": 29,
+      "type": "mc",
+      "t": "Sử dụng máy tính cầm tay, tính giá trị gần đúng của √15 làm tròn đến hàng phần trăm:",
+      "o": [
+        "A. 3,87",
+        "B. 3,88",
+        "C. 3,90",
+        "D. 3,872"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Bước 1: Bấm máy tính √15 = 3,872983...<br>Bước 2: Hàng phần trăm là chữ số 7, chữ số bên phải là 2 < 5.<br>Bước 3: Kết quả làm tròn là 3,87.<br>👉 Chọn A.",
+      "err": "Học sinh nhầm làm tròn tăng lên 3,88 hoặc không chú ý chữ số sau hàng làm tròn."
+    },
+    {
+      "id": 30,
+      "type": "tf",
+      "t": "Đánh giá tính Đúng/Sai của các mệnh đề sau:",
+      "o": [
+        "a) Số vô tỉ là số thập phân vô hạn không tuần hoàn.",
+        "b) Tập hợp số vô tỉ được ký hiệu là I.",
+        "c) Mọi căn bậc hai số học của một số tự nhiên đều là số vô tỉ.",
+        "d) 0 không phải là số hữu tỉ cũng không phải là số vô tỉ."
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "a) ĐÚNG. Theo định nghĩa SGK.<br>b) ĐÚNG. Kí hiệu I đại diện cho tập số vô tỉ (Irrational numbers).<br>c) SAI. √4 = 2, √9 = 3 là số hữu tỉ.<br>d) SAI. 0 = 0/1 là số hữu tỉ.",
+      "err": "Học sinh hay tưởng mọi căn bậc hai số tự nhiên đều là số vô tỉ ở câu c."
+    }
+  ],
+  "2_Thường": [
+    {
+      "id": 31,
+      "type": "mc",
+      "t": "So sánh hai số 4 và √15:",
+      "o": [
+        "A. 4 < √15",
+        "B. 4 > √15",
+        "C. 4 = √15",
+        "D. Không so sánh được"
+      ],
+      "a": 1,
+      "topic": 3,
+      "sol": "Bước 1: Đưa số 4 về dạng căn bậc hai số học: 4 = √16.<br>Bước 2: So sánh hai số dưới dấu căn: 16 > 15.<br>Bước 3: Vì 16 > 15 nên √16 > √15, hay 4 > √15.<br>👉 Chọn B.",
+      "err": "Học sinh so sánh trực tiếp số 4 với số 15 dưới dấu căn rồi kết luận 4 < 15."
+    },
+    {
+      "id": 32,
+      "type": "fill",
+      "t": "Tìm x không âm biết 2√x - 6 = 0.",
+      "o": [
+        "Đáp án điền: 9"
+      ],
+      "a": "Đáp án là 9.",
+      "topic": 3,
+      "sol": "Bước 1: 2√x = 6 -> √x = 6 : 2 = 3.<br>Bước 2: Bình phương hai vế: x = 3² = 9.<br>Bước 3: Thỏa mãn x ≥ 0.<br>👉 Đáp án là 9.",
+      "err": "Học sinh làm đến √x = 3 rồi suy ra x = 3 hoặc x = √3."
+    },
+    {
+      "id": 33,
+      "type": "match",
+      "t": "Ghép biểu thức ở Cột A với kết quả thu gọn ở Cột B:",
+      "o": [
+        "Cột A: 1) √(2^4) | 2) √(3^2 + 4^2) | 3) √(0,81) / √(0,09) | 4) 3√16 - 2√9\nCột B: A) 5 | B) 6 | C) 4 | D) 3"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Ghép đúng:<br>• 1 - C (√16 = 4)<br>• 2 - A (√(9+16) = √25 = 5)<br>• 3 - D (0,9 / 0,3 = 3)<br>• 4 - B (3 x 4 - 2 x 3 = 12 - 6 = 6)",
+      "err": "Học sinh tính sai câu 2: tưởng √(3² + 4²) = 3 + 4 = 7 (khai căn từng số hạng trong tổng là sai)."
+    },
+    {
+      "id": 34,
+      "type": "mc",
+      "t": "Độ dài đường chéo của một màn hình tivi hình chữ nhật có chiều dài 40 cm và chiều rộng 30 cm là:",
+      "o": [
+        "A. 70 cm",
+        "B. 50 cm",
+        "C. 10 cm",
+        "D. 2500 cm"
+      ],
+      "a": 1,
+      "topic": 3,
+      "sol": "Bước 1: Theo định lý Pythagore, d² = 40² + 30² = 1600 + 900 = 2500.<br>Bước 2: d = √2500 = 50 (cm).<br>👉 Chọn B (50 cm).",
+      "err": "Học sinh cộng trực tiếp 40 + 30 = 70 cm."
+    },
+    {
+      "id": 35,
+      "type": "tf",
+      "t": "Xét tính Đúng/Sai của các đẳng thức sau với a, b > 0:",
+      "o": [
+        "a) √(a ×",
+        "b) = √a × √b",
+        "b) √(a +",
+        "b) = √a + √b",
+        "c) √(a /",
+        "b) = √a / √b",
+        "d) √(a² - b²) = a - b"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "a) ĐÚNG. Tính chất căn bậc hai tích.<br>b) SAI. Căn của tổng không bằng tổng hai căn.<br>c) ĐÚNG. Tính chất căn bậc hai thương.<br>d) SAI. Căn của hiệu không bằng hiệu hai căn.",
+      "err": "Học sinh hay áp dụng sai tính chất nhân/chia sang cho phép cộng/trừ ở câu b và d."
+    },
+    {
+      "id": 36,
+      "type": "drag",
+      "t": "Phân loại các số sau vào 3 nhóm thích hợp: √16 ; √8 ; √1/4 ; √0,9 ; √100 ; √3",
+      "o": [
+        "Nhóm 1 (Số nguyên): √16 (= 4) ; √100 (= 10)\nNhóm 2 (Số thập phân hữu hạn): √1/4 (= 1/2 = 0,5)\nNhóm 3 (Số vô tỉ): √8 ; √0,9 ; √3"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Bước 1: Tính khai căn các số chính phương: √16=4, √100=10, √(1/4)=0,5.<br>Bước 2: √8, √0,9, √3 không khai căn ra số hữu tỉ -> Số vô tỉ.",
+      "err": "Học sinh lầm tưởng √0,9 = 0,3 (vì 0,3^2 = 0,09 chứ không phải 0,9)."
+    },
+    {
+      "id": 37,
+      "type": "order",
+      "t": "Sắp xếp các bước giải bài toán tìm x biết √(x + 3) = 4:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Điều kiện: x + 3 ≥ 0 => x ≥ -3.\n2. Bước 2: Bình phương hai vế: x + 3 = 4².\n3. Bước 3: Giải phương trình: x + 3 = 16 => x = 16 - 3 = 13.\n4. Bước 4: Đối chiếu điều kiện 13 ≥ -3 (Thỏa mãn). Kết luận x = 13."
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3 -> Bước 4.",
+      "err": "Học sinh hay quên điều kiện xác định hoặc tính 4² = 8."
+    },
+    {
+      "id": 38,
+      "type": "fill",
+      "t": "Tính diện tích một hình vuông có độ dài đường chéo bằng √32 cm.",
+      "o": [
+        "Đáp án điền: 16"
+      ],
+      "a": "Đáp án là 16.",
+      "topic": 3,
+      "sol": "Bước 1: Gọi cạnh hình vuông là a (cm). Ta có a² + a² = (√32)² = 32.<br>Bước 2: 2a² = 32 => a² = 16.<br>Bước 3: Diện tích hình vuông là S = a² = 16 cm².<br>👉 Đáp án là 16.",
+      "err": "Học sinh nhầm lẫn tính ra a = 32 hoặc S = 32."
+    },
+    {
+      "id": 39,
+      "type": "mc",
+      "t": "Trong các khẳng định sau, khẳng định nào SAI?",
+      "o": [
+        "A. Nếu a > b > 0 thì √a > √b",
+        "B. Với a ≥ 0 thì (√a)² = a",
+        "C. Số 0 không có căn bậc hai số học",
+        "D. √a² = |a| với mọi số thực a"
+      ],
+      "a": 2,
+      "topic": 3,
+      "sol": "Bước 1: Xét câu C: Số 0 có căn bậc hai số học là √0 = 0.<br>Bước 2: Vậy khẳng định C là SAI.<br>👉 Chọn C.",
+      "err": "Học sinh tưởng số 0 không có căn bậc hai."
+    },
+    {
+      "id": 40,
+      "type": "tf",
+      "t": "Cho x là số thực. Đánh giá tính Đúng/Sai của các mệnh đề sau:",
+      "o": [
+        "a) Nếu x² = 9 thì x = 3.",
+        "b) Nếu √x = 3 thì x = 9.",
+        "c) Nếu x² = 7 thì x = √7 hoặc x = -√7.",
+        "d) √(x²) luôn bằng x với mọi x. 🏛️ ẢI 3: MÊ CUNG TRỤC SỐ THỰC"
+      ],
+      "a": 0,
+      "topic": 3,
+      "sol": "a) SAI. x² = 9 có hai nghiệm x = 3 hoặc x = -3.<br>b) ĐÚNG. √x = 3 => x = 3² = 9.<br>c) ĐÚNG. Phương trình x² = a (a > 0) có 2 nghiệm x = ±√a.<br>d) SAI. √(x²) = |x| (nếu x âm thì bằng -x).",
+      "err": "Học sinh rất hay sai ở câu a (thiếu nghiệm âm -3) và câu d (quên dấu giá trị tuyệt đối)."
+    }
+  ],
+  "3_Dễ": [
+    {
+      "id": 41,
+      "type": "mc",
+      "t": "Tập hợp các số thực được kí hiệu là:",
+      "o": [
+        "A. ℕ",
+        "B. ℤ",
+        "C. ℚ",
+        "D. ℝ"
+      ],
+      "a": 3,
+      "topic": 4,
+      "sol": "Bước 1: N là tập số tự nhiên, Z là tập số nguyên, Q là tập số hữu tỉ.<br>Bước 2: Tập hợp bao gồm cả số hữu tỉ và số vô tỉ được gọi là tập hợp số thực, ký hiệu là ℝ.<br>👉 Chọn D (ℝ).",
+      "err": "Học sinh nhầm lẫn kí hiệu giữa tập số hữu tỉ ℚ và tập số thực ℝ."
+    },
+    {
+      "id": 42,
+      "type": "fill",
+      "t": "Điền kí hiệu thích hợp (∈ hoặc ∉) vào chỗ trống: √3 ...... ℝ",
+      "o": [
+        "Đáp án điền: ∈"
+      ],
+      "a": "Đáp án điền: ∈",
+      "topic": 4,
+      "sol": "Bước 1: √3 là số vô tỉ.<br>Bước 2: Tập hợp số thực ℝ bao gồm cả số hữu tỉ và số vô tỉ.<br>Bước 3: Do đó √3 thuộc tập hợp ℝ (kí hiệu √3 ∈ ℝ).",
+      "err": "Học sinh tưởng √3 là số vô tỉ nên không thuộc ℝ."
+    },
+    {
+      "id": 43,
+      "type": "tf",
+      "t": "Xác định tính Đúng (Đ) hoặc Sai (S) của các quan hệ tập hợp sau:",
+      "o": [
+        "a) ℕ ⊂ ℤ",
+        "b) ℤ ⊂ ℚ",
+        "c) ℚ ⊂ ℝ",
+        "d) I ⊂ ℚ"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "a) ĐÚNG.<br>b) ĐÚNG.<br>c) ĐÚNG.<br>d) SAI. Tập số vô tỉ I và tập số hữu tỉ ℚ không giao nhau (không tập nào chứa tập nào).",
+      "err": "Học sinh hay sai câu d do tưởng I là tập con của ℚ."
+    },
+    {
+      "id": 44,
+      "type": "match",
+      "t": "Ghép các số ở Cột A với số đối tương ứng của chúng ở Cột B:",
+      "o": [
+        "Cột A: 1) -√5 | 2) 3,14 | 3) √2 | 4) -2/3\nCột B: A) 2/3 | B) √5 | C) -3,14 | D) -√2"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Ghép đúng:<br>• 1 - B (Số đối của -√5 là √5)<br>• 2 - C (Số đối của 3,14 là -3,14)<br>• 3 - D (Số đối của √2 là -√2)<br>• 4 - A (Số đối của -2/3 là 2/3)",
+      "err": "Học sinh quên đổi dấu khi tìm số đối."
+    },
+    {
+      "id": 45,
+      "type": "drag",
+      "t": "Phân loại các số sau vào 2 nhóm: 'Số thực dương' và 'Số thực âm': -2,5 ; √7 ; -√3 ; 4/5 ; π ; -0,01",
+      "o": [
+        "Nhóm 1 (Số thực dương): √7 ; 4/5 ; π\nNhóm 2 (Số thực âm): -2,5 ; -√3 ; -0,01"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Bước 1: Các số lớn hơn 0 thuộc nhóm Số thực dương.<br>Bước 2: Các số nhỏ hơn 0 (có dấu trừ phía trước) thuộc nhóm Số thực âm.",
+      "err": "Học sinh nhầm -√3 không phải số âm vì có dấu căn."
+    },
+    {
+      "id": 46,
+      "type": "order",
+      "t": "Sắp xếp các bước để so sánh hai số thực -1,5 và -√2:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Viết -1,5 = -√2,25.\n2. Bước 2: So sánh hai số dưới dấu căn: 2,25 > 2 => √2,25 > √2.\n3. Bước 3: Nhân hai vế với -1 (đổi chiều bất đẳng thức): -√2,25 < -√2.\n4. Bước 4: Kết luận: -1,5 < -√2."
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3 -> Bước 4.",
+      "err": "Học sinh hay quên đổi chiều bất đẳng thức khi so sánh hai số âm."
+    },
+    {
+      "id": 47,
+      "type": "mc",
+      "t": "Trên trục số thực, điểm biểu diễn số 0 nằm ở vị trí nào so với điểm biểu diễn số -√2?",
+      "o": [
+        "A. Bên trái",
+        "B. Bên phải",
+        "C. Trùng nhau",
+        "D. Khó xác định"
+      ],
+      "a": 1,
+      "topic": 4,
+      "sol": "Bước 1: Vì -√2 là số thực âm nên -√2 < 0.<br>Bước 2: Trên trục số nằm ngang, số lớn hơn sẽ nằm bên phải số nhỏ hơn.<br>Bước 3: Do 0 > -√2 nên điểm 0 nằm bên phải điểm -√2.<br>👉 Chọn B.",
+      "err": "Học sinh nhầm lẫn giữa hướng bên trái và bên phải trên trục số."
+    },
+    {
+      "id": 48,
+      "type": "fill",
+      "t": "Tìm số nhỏ nhất trong các số thực sau: -3 ; √2 ; 0 ; -3,5 ; 1,2.",
+      "o": [
+        "Đáp án điền: -3,5"
+      ],
+      "a": "Đáp án điền: -3,5",
+      "topic": 4,
+      "sol": "Bước 1: Các số thực âm là -3 và -3,5.<br>Bước 2: So sánh hai số âm: |-3,5| = 3,5 > 3 = |-3| => -3,5 < -3.<br>Bước 3: Số nhỏ nhất là -3,5.",
+      "err": "Học sinh chọn nhầm -3 là số nhỏ nhất."
+    },
+    {
+      "id": 49,
+      "type": "mc",
+      "t": "Khẳng định nào sau đây là ĐÚNG?",
+      "o": [
+        "A. Mọi số thực đều là số hữu tỉ",
+        "B. Mọi số thực đều là số vô tỉ",
+        "C. Mọi số hữu tỉ đều là số thực",
+        "D. Số 0 không phải là số thực"
+      ],
+      "a": 2,
+      "topic": 4,
+      "sol": "Bước 1: Vì ℝ = ℚ ∪ I (tập số thực hợp bởi số hữu tỉ và vô tỉ).<br>Bước 2: Do đó mọi số hữu tỉ đều thuộc tập số thực (ℚ ⊂ ℝ).<br>👉 Chọn C.",
+      "err": "Học sinh nhầm lẫn mối quan hệ bao hàm giữa tập hợp."
+    },
+    {
+      "id": 50,
+      "type": "tf",
+      "t": "Đánh giá tính Đúng/Sai của các phát biểu về biểu diễn số thực trên trục số:",
+      "o": [
+        "a) Mỗi số thực được biểu diễn bởi đúng một điểm trên trục số.",
+        "b) Mỗi điểm trên trục số biểu diễn đúng một số thực.",
+        "c) Điểm biểu diễn số √2 không thể dựng được bằng thước và compa.",
+        "d) Trục số thực phủ kín bởi các điểm biểu diễn số thực."
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "a) ĐÚNG.<br>b) ĐÚNG.<br>c) SAI. Có thể dựng chính xác điểm √2 bằng độ dài đường chéo hình vuông cạnh 1.<br>d) ĐÚNG. Trục số thực liên tục không có ô trống.",
+      "err": "Học sinh tưởng số vô tỉ như √2 không biểu diễn chính xác được trên trục số ở câu c."
+    }
+  ],
+  "3_Thường": [
+    {
+      "id": 51,
+      "type": "mc",
+      "t": "Sắp xếp các số thực sau theo thứ tự tăng dần: -√5 ; -2 ; 0 ; √3 ; 2,(1).",
+      "o": [
+        "A. -2 ; -√5 ; 0 ; √3 ; 2,(1)",
+        "B. -√5 ; -2 ; 0 ; √3 ; 2,(1)",
+        "C. 0 ; -2 ; -√5 ; √3 ; 2,(1)",
+        "D. -√5 ; -2 ; 0 ; 2,(1) ; √3"
+      ],
+      "a": 1,
+      "topic": 4,
+      "sol": "Bước 1: Biểu diễn dạng số thập phân: -√5 ≈ -2,236 ; √3 ≈ 1,732 ; 2,(1) ≈ 2,111.<br>Bước 2: So sánh các số âm: -2,236 < -2 (tức -√5 < -2).<br>Bước 3: So sánh các số dương: 0 < 1,732 < 2,111 (tức 0 < √3 < 2,(1)).<br>Bước 4: Thứ tự tăng dần: -√5 ; -2 ; 0 ; √3 ; 2,(1).<br>👉 Chọn B.",
+      "err": "Học sinh nhầm -2 < -√5 do so sánh 2 < 2,236 nhưng quên dấu âm."
+    },
+    {
+      "id": 52,
+      "type": "fill",
+      "t": "Có bao nhiêu số nguyên x thỏa mãn điều kiện -√10 < x < √17?",
+      "o": [
+        "Đáp án điền: 8"
+      ],
+      "a": "Đáp án là 8.",
+      "topic": 4,
+      "sol": "Bước 1: Ta có √9 < √10 < √16 => 3 < √10 < 4 => -4 < -√10 < -3.<br>Bước 2: Ta có √16 < √17 < √25 => 4 < √17 < 5.<br>Bước 3: Do đó -3,16 < x < 4,12.<br>Bước 4: Vì x ∈ ℤ nên x ∈ {-3; -2; -1; 0; 1; 2; 3; 4}.<br>Bước 5: Đếm có 8 số nguyên.<br>👉 Đáp án là 8.",
+      "err": "Học sinh bỏ sót số 0 hoặc đếm thiếu/thừa các mút nguyên (-3 hay 4)."
+    },
+    {
+      "id": 53,
+      "type": "match",
+      "t": "Ghép số thực x ở Cột A với điều kiện của x ở Cột B:",
+      "o": [
+        "Cột A: 1) x² = 9 | 2) x³ = -8 | 3) x² = 5 (x > 0) | 4) x² = -4\nCột B: A) x = -2 | B) x = ±3 | C) Không tồn tại x | D) x = √5"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Ghép đúng:<br>• 1 - B (x = ±3)<br>• 2 - A (x = -2)<br>• 3 - D (x = √5 vì x > 0)<br>• 4 - C (Bình phương số thực không thể âm)",
+      "err": "Học sinh quên nghiệm âm ở câu 1 hoặc tưởng câu 4 có nghiệm x = -2."
+    },
+    {
+      "id": 54,
+      "type": "mc",
+      "t": "Cho a = 22/7 và b = 3,14. Khẳng định nào sau đây đúng?",
+      "o": [
+        "A. a = b",
+        "B. a < b",
+        "C. a > b",
+        "D. Không so sánh được"
+      ],
+      "a": 2,
+      "topic": 4,
+      "sol": "Bước 1: Đổi 22/7 = 3,142857...<br>Bước 2: So sánh 3,142857... và 3,140000...<br>Bước 3: Thấy chữ số hàng phần nghìn 2 > 0 nên 22/7 > 3,14 (a > b).<br>👉 Chọn C.",
+      "err": "Học sinh hay ngộ nhận 22/7 chính bằng 3,14 nên chọn A."
+    },
+    {
+      "id": 55,
+      "type": "tf",
+      "t": "Xét tính Đúng/Sai của các mệnh đề sau về tập hợp số thực:",
+      "o": [
+        "a) Giao của tập hợp số hữu tỉ ℚ và tập hợp số vô tỉ I là tập hợp rỗng (ℚ ∩ I = ∅).",
+        "b) Hợp của tập hợp số hữu tỉ ℚ và tập hợp số vô tỉ I là tập hợp số thực ℝ (ℚ ∪ I = ℝ).",
+        "c) Nếu a ∈ ℝ thì a là số hữu tỉ hoặc a là số vô tỉ.",
+        "d) Có số thực không thuộc ℚ và cũng không thuộc I."
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "a) ĐÚNG.<br>b) ĐÚNG.<br>c) ĐÚNG.<br>d) SAI. Mọi số thực bắt buộc thuộc ℚ hoặc thuộc I.",
+      "err": "Học sinh sai câu d do chưa hiểu bản chất tập hợp ℝ phân hoạch thành ℚ và I."
+    },
+    {
+      "id": 56,
+      "type": "drag",
+      "t": "Phân loại các số thực sau vào 2 nhóm: 'Lớn hơn √3' và 'Nhỏ hơn √3': 1,5 ; 2 ; √2 ; 1,(8) ; 1,7 ; √5",
+      "o": [
+        "Nhóm 1 (Lớn hơn √3 ≈ 1,732): 2 ; 1,(8) ≈ 1,888 ; √5 ≈ 2,236\nNhóm 2 (Nhỏ hơn √3 ≈ 1,732): 1,5 ; √2 ≈ 1,414 ; 1,7"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Bước 1: Nhớ √3 ≈ 1,732.<br>Bước 2: So sánh từng số với 1,732 để xếp nhóm.",
+      "err": "Học sinh xếp nhầm 1,7 vào nhóm lớn hơn √3."
+    },
+    {
+      "id": 57,
+      "type": "order",
+      "t": "Sắp xếp các bước giải để chứng minh √2 là một số nằm giữa 1 và 2:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Bình phương số 1 ta được 1² = 1.\n2. Bước 2: Bình phương số 2 ta được 2² = 4.\n3. Bước 3: So sánh: 1 < 2 < 4.\n4. Bước 4: Lấy căn bậc hai số học các số: √1 < √2 < √4 hay 1 < √2 < 2."
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3 -> Bước 4.",
+      "err": "Học sinh bấm máy tính ra 1,414... rồi kết luận trực tiếp mà chưa chứng minh theo logic bất đẳng thức."
+    },
+    {
+      "id": 58,
+      "type": "fill",
+      "t": "Tìm x biết (x - 1)² = 7 và x > 0. Làm tròn kết quả đến hàng phần mười.",
+      "o": [
+        "Đáp án điền: 3,6"
+      ],
+      "a": "Đáp án là 3,6.",
+      "topic": 4,
+      "sol": "Bước 1: (x - 1)² = 7 => x - 1 = √7 hoặc x - 1 = -√7.<br>Bước 2: Vì x > 0 nên x = 1 + √7.<br>Bước 3: Bấm máy tính 1 + √7 ≈ 1 + 2,6457 = 3,6457...<br>Bước 4: Làm tròn đến hàng phần mười được 3,6.<br>👉 Đáp án là 3,6.",
+      "err": "Học sinh quên cộng 1 hoặc làm tròn sai."
+    },
+    {
+      "id": 59,
+      "type": "mc",
+      "t": "Trên trục số, khoảng cách giữa hai điểm biểu diễn hai số thực a = -2,5 và b = 1,5 là:",
+      "o": [
+        "A. -1",
+        "B. 1",
+        "C. 4",
+        "D. -4"
+      ],
+      "a": 2,
+      "topic": 4,
+      "sol": "Bước 1: Khoảng cách giữa hai điểm a và b trên trục số là |b - a|.<br>Bước 2: Tính |1,5 - (-2,5)| = |1,5 + 2,5| = |4| = 4.<br>👉 Chọn C (4).",
+      "err": "Học sinh tính 1,5 - 2,5 = -1 nên chọn khoảng cách là -1 (khoảng cách không bao giờ âm)."
+    },
+    {
+      "id": 60,
+      "type": "tf",
+      "t": "Đánh giá tính Đúng/Sai của các câu khẳng định sau với x, y là các số thực:",
+      "o": [
+        "a) Nếu x < y thì x² < y².",
+        "b) Nếu x < y < 0 thì x² > y².",
+        "c) Nếu 0 < x < y thì √x < √y.",
+        "d) Nếu x < y thì -x > -y. 🏔️ ẢI 4: ĐỈNH NÚI GIÁ TRỊ TUYỆT ĐỐI"
+      ],
+      "a": 0,
+      "topic": 4,
+      "sol": "a) SAI. Ví dụ -3 < 2 nhưng (-3)² = 9 > 4 = 2².<br>b) ĐÚNG. Với hai số âm, số nào nhỏ hơn thì bình phương sẽ lớn hơn.<br>c) ĐÚNG. Tính chất căn bậc hai số học.<br>d) ĐÚNG. Nhân hai vế với -1 đổi chiều bất đẳng thức.",
+      "err": "Học sinh hay sai ở câu a do áp dụng bình phương vế mà chưa xét dấu của x và y."
+    }
+  ],
+  "4_Dễ": [
+    {
+      "id": 61,
+      "type": "mc",
+      "t": "Giá trị tuyệt đối của số thực x = -4,5 là:",
+      "o": [
+        "A. -4,5",
+        "B. 4,5",
+        "C. 0",
+        "D. 9"
+      ],
+      "a": 1,
+      "topic": 5,
+      "sol": "Bước 1: Giá trị tuyệt đối của số âm là số đối của nó.<br>Bước 2: |-4,5| = -(-4,5) = 4,5.<br>👉 Chọn B (4,5).",
+      "err": "Học sinh giữ nguyên dấu âm: |-4,5| = -4,5."
+    },
+    {
+      "id": 62,
+      "type": "fill",
+      "t": "Tính giá trị của biểu thức A = |-3| + |0| - |-5|.",
+      "o": [
+        "Đáp án điền: -2"
+      ],
+      "a": "Đáp án là -2.",
+      "topic": 5,
+      "sol": "Bước 1: |-3| = 3.<br>Bước 2: |0| = 0.<br>Bước 3: |-5| = 5.<br>Bước 4: Thay vào A = 3 + 0 - 5 = -2.<br>👉 Đáp án là -2.",
+      "err": "Học sinh tính |-5| = -5 rồi lấy 3 - (-5) = 8 (nhầm dấu giá trị tuyệt đối)."
+    },
+    {
+      "id": 63,
+      "type": "tf",
+      "t": "Xác định tính Đúng (Đ) hoặc Sai (S) của các mệnh đề sau về giá trị tuyệt đối:",
+      "o": [
+        "a) Giá trị tuyệt đối của một số thực luôn là một số không âm (|x| ≥ 0 với mọi x).",
+        "b) Hai số đối nhau có giá trị tuyệt đối bằng nhau (|x| = |-x|).",
+        "c) Giá trị tuyệt đối của 0 bằng 0.",
+        "d) Nếu |x| = 5 thì x = 5."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "a) ĐÚNG.<br>b) ĐÚNG.<br>c) ĐÚNG.<br>d) SAI. Nếu |x| = 5 thì x = 5 hoặc x = -5.",
+      "err": "Học sinh quên nghiệm âm x = -5 ở câu d."
+    },
+    {
+      "id": 64,
+      "type": "match",
+      "t": "Ghép giá trị x ở Cột A với |x| tương ứng ở Cột B:",
+      "o": [
+        "Cột A: 1) x = -√7 | 2) x = 2 - √5 | 3) x = 3,14 - π | 4) x = -3/4\nCột B: A) 3/4 | B) √7 | C) √5 - 2 | D) π - 3,14"
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Ghép đúng:<br>• 1 - B (|-√7| = √7)<br>• 2 - C (Vì 2 < √5 nên 2 - √5 < 0 => |2 - √5| = √5 - 2)<br>• 3 - D (Vì 3,14 < π nên 3,14 - π < 0 => |3,14 - π| = π - 3,14)<br>• 4 - A (|-3/4| = 3/4)",
+      "err": "Học sinh giữ nguyên 2 - √5 ở câu 2 do không kiểm tra dấu âm của biểu thức."
+    },
+    {
+      "id": 65,
+      "type": "drag",
+      "t": "Phân loại các khẳng định sau vào 2 nhóm: 'Đúng với mọi x' và 'Không đúng với mọi x': |x| ≥ 0 ; |x| = x ; |-x| = |x| ; |x| > 0",
+      "o": [
+        "Nhóm 1 (Đúng với mọi x): |x| ≥ 0 ; |-x| = |x|\nNhóm 2 (Không đúng với mọi x): |x| = x (chỉ đúng khi x ≥ 0) ; |x| > 0 (sai khi x = 0)"
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Bước 1: Kiểm tra tính đúng đắn tại x = 0 và x âm.<br>Bước 2: Nhóm 2 chứa các mệnh đề bị thiếu điều kiện hoặc sai tại x = 0.",
+      "err": "Học sinh cho rằng |x| luôn lớn hơn 0 (quên trường hợp x = 0)."
+    },
+    {
+      "id": 66,
+      "type": "order",
+      "t": "Sắp xếp các bước giải bài toán tìm x biết |x| = 3,5:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Nhận xét vế phải 3,5 > 0 nên phương trình có hai nghiệm.\n2. Bước 2: Áp dụng định nghĩa giá trị tuyệt đối: x = 3,5 hoặc x = -3,5.\n3. Bước 3: Kết luận vậy x ∈ {3,5; -3,5}."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3.",
+      "err": "Học sinh hay bỏ qua bước kiểm tra vế phải âm hay dương."
+    },
+    {
+      "id": 67,
+      "type": "mc",
+      "t": "Khoảng cách từ điểm -7 đến điểm 0 trên trục số là bao nhiêu?",
+      "o": [
+        "A. -7",
+        "B. 7",
+        "C. 0",
+        "D. 14"
+      ],
+      "a": 1,
+      "topic": 5,
+      "sol": "Bước 1: Khoảng cách từ điểm a đến 0 trên trục số chính là giá trị tuyệt đối |a|.<br>Bước 2: Tính |-7| = 7.<br>👉 Chọn B (7).",
+      "err": "Học sinh chọn A (-7) do nhầm khoảng cách với tọa độ."
+    },
+    {
+      "id": 68,
+      "type": "fill",
+      "t": "Tìm x biết |x| = 0.",
+      "o": [
+        "Đáp án điền: 0"
+      ],
+      "a": "Đáp án là 0.",
+      "topic": 5,
+      "sol": "Bước 1: Chỉ có duy nhất số 0 có giá trị tuyệt đối bằng 0.<br>Bước 2: x = 0.<br>👉 Đáp án là 0.",
+      "err": "Học sinh viết x = ±0."
+    },
+    {
+      "id": 69,
+      "type": "mc",
+      "t": "Cho |x| = -2. Khẳng định nào sau đây đúng?",
+      "o": [
+        "A. x = 2",
+        "B. x = -2",
+        "C. x = ±2",
+        "D. Không có giá trị nào của x thỏa mãn"
+      ],
+      "a": 3,
+      "topic": 5,
+      "sol": "Bước 1: Nhận xét |x| ≥ 0 với mọi x ∈ ℝ.<br>Bước 2: Vế phải là -2 < 0 (vô lý).<br>Bước 3: Không có giá trị nào của x thỏa mãn.<br>👉 Chọn D.",
+      "err": "Học sinh suy ra x = 2 hoặc x = -2 do thói quen bỏ dấu giá trị tuyệt đối."
+    },
+    {
+      "id": 70,
+      "type": "tf",
+      "t": "Đánh giá tính Đúng/Sai của các câu sau:",
+      "o": [
+        "a) Giá trị tuyệt đối của số dương là chính nó.",
+        "b) Giá trị tuyệt đối của số âm là số đối của nó.",
+        "c) Nếu x < 0 thì |x| = -x.",
+        "d) |-√3| = -√3."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "a) ĐÚNG.<br>b) ĐÚNG.<br>c) ĐÚNG (vì x âm nên -x sẽ dương).<br>d) SAI. |-√3| = √3.",
+      "err": "Học sinh hay tưởng câu c sai vì thấy dấu trừ trước x."
+    }
+  ],
+  "4_Thường": [
+    {
+      "id": 71,
+      "type": "mc",
+      "t": "Tìm x biết |x - 1,5| = 2:",
+      "o": [
+        "A. x = 3,5",
+        "B. x = -0,5",
+        "C. x = 3,5 hoặc x = -0,5",
+        "D. x = 0,5"
+      ],
+      "a": 2,
+      "topic": 5,
+      "sol": "Bước 1: Trường hợp 1: x - 1,5 = 2 => x = 2 + 1,5 = 3,5.<br>Bước 2: Trường hợp 2: x - 1,5 = -2 => x = -2 + 1,5 = -0,5.<br>Bước 3: Kết luận x = 3,5 hoặc x = -0,5.<br>👉 Chọn C.",
+      "err": "Học sinh chỉ giải trường hợp 1 ra x = 3,5 mà quên trường hợp 2."
+    },
+    {
+      "id": 72,
+      "type": "fill",
+      "t": "Tìm giá trị nhỏ nhất của biểu thức A = |x - 3| + 5.",
+      "o": [
+        "Đáp án điền: 5"
+      ],
+      "a": "Đáp án là 5.",
+      "topic": 5,
+      "sol": "Bước 1: Vì |x - 3| ≥ 0 với mọi x.<br>Bước 2: Cộng 5 vào hai vế: A = |x - 3| + 5 ≥ 0 + 5 = 5.<br>Bước 3: Dấu '=' xảy ra khi x - 3 = 0 => x = 3.<br>Bước 4: Giá trị nhỏ nhất của A là 5.<br>👉 Đáp án là 5.",
+      "err": "Học sinh trả lời giá trị nhỏ nhất bằng 0 hoặc x = 3."
+    },
+    {
+      "id": 73,
+      "type": "match",
+      "t": "Ghép phương trình ở Cột A với số nghiệm x tương ứng ở Cột B:",
+      "o": [
+        "Cột A: 1) |2x - 1| = 0 | 2) |x + 3| = -5 | 3) |3x + 2| = 7 | 4) |x| = x\nCột B: A) 0 nghiệm | B) 1 nghiệm | C) 2 nghiệm | D) Vô số nghiệm (x ≥ 0)"
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Ghép đúng:<br>• 1 - B (2x - 1 = 0 => 1 nghiệm x = 1/2)<br>• 2 - A (Vế phải âm => 0 nghiệm)<br>• 3 - C (3x + 2 = ±7 => 2 nghiệm x = 5/3 hoặc x = -3)<br>• 4 - D (Đúng với mọi x ≥ 0 => Vô số nghiệm)",
+      "err": "Học sinh hay nhầm câu 1 có 2 nghiệm x = ±0."
+    },
+    {
+      "id": 74,
+      "type": "mc",
+      "t": "Rút gọn biểu thức B = x + |x| khi x < 0 ta được kết quả là:",
+      "o": [
+        "A. 2x",
+        "B. 0",
+        "C. -2x",
+        "D. -x"
+      ],
+      "a": 1,
+      "topic": 5,
+      "sol": "Bước 1: Vì x < 0 nên theo định nghĩa |x| = -x.<br>Bước 2: Thay vào biểu thức: B = x + (-x) = 0.<br>👉 Chọn B (0).",
+      "err": "Học sinh cho rằng |x| = x nên lấy x + x = 2x."
+    },
+    {
+      "id": 75,
+      "type": "tf",
+      "t": "Cho biểu thức C = 10 - |x + 2|. Đánh giá tính Đúng/Sai của các phát biểu sau:",
+      "o": [
+        "a) Giá trị của C luôn nhỏ hơn hoặc bằng 10 với mọi x.",
+        "b) Giá trị lớn nhất của C bằng 10.",
+        "c) Giá trị lớn nhất của C đạt được khi x = -2.",
+        "d) Không tồn tại x để C = 0."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "a) ĐÚNG. Vì |x + 2| ≥ 0 => -|x + 2| ≤ 0 => C ≤ 10.<br>b) ĐÚNG.<br>c) ĐÚNG. Khi x + 2 = 0 => x = -2.<br>d) SAI. Khi |x + 2| = 10 => x = 8 hoặc x = -12 thì C = 0.",
+      "err": "Học sinh nhầm lẫn giữa giá trị lớn nhất và giá trị nhỏ nhất của biểu thức có chứa dấu trừ trước giá trị tuyệt đối."
+    },
+    {
+      "id": 76,
+      "type": "drag",
+      "t": "Phân loại các số sau theo vị trí khoảng cách đến số 0 trên trục số: |-8| ; |3| ; |-10| ; |√5| ; |-1,5| ; |9|",
+      "o": [
+        "Nhóm 1 (Khoảng cách đến 0 nhỏ hơn 5): |3| (=3) ; |√5| (≈2,236) ; |-1,5| (=1,5)\nNhóm 2 (Khoảng cách đến 0 lớn hơn 5): |-8| (=8) ; |-10| (=10) ; |9| (=9)"
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Bước 1: Tính giá trị tuyệt đối của từng số.<br>Bước 2: So sánh kết quả với 5 để phân loại.",
+      "err": "Học sinh lấy số âm ban đầu để so sánh chứ không lấy giá trị tuyệt đối."
+    },
+    {
+      "id": 77,
+      "type": "order",
+      "t": "Sắp xếp các bước giải bài toán tìm x biết 2|x - 1| + 3 = 9:",
+      "o": [
+        "Thứ tự sắp xếp đúng:\n1. Bước 1: Chuyển vế: 2|x - 1| = 9 - 3 = 6.\n2. Bước 2: Chia 2 vế cho 2: |x - 1| = 6 : 2 = 3.\n3. Bước 3: Chia 2 trường hợp: x - 1 = 3 hoặc x - 1 = -3.\n4. Bước 4: Giải ra x = 4 hoặc x = -2. Kết luận x ∈ {4; -2}."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "Thứ tự chuẩn: Bước 1 -> Bước 2 -> Bước 3 -> Bước 4.",
+      "err": "Học sinh chưa chuyển vế số 3 đã vội phá dấu giá trị tuyệt đối."
+    },
+    {
+      "id": 78,
+      "type": "fill",
+      "t": "Tính giá trị của biểu thức M = |x - y| + |y - z| khi x = 1, y = 4, z = -2.",
+      "o": [
+        "Đáp án điền: 9"
+      ],
+      "a": "Đáp án là 9.",
+      "topic": 5,
+      "sol": "Bước 1: Tính |x - y| = |1 - 4| = |-3| = 3.<br>Bước 2: Tính |y - z| = |4 - (-2)| = |4 + 2| = |6| = 6.<br>Bước 3: M = 3 + 6 = 9.<br>👉 Đáp án là 9.",
+      "err": "Học sinh tính sai 4 - (-2) = 2 dẫn đến M = 5."
+    },
+    {
+      "id": 79,
+      "type": "mc",
+      "t": "Với mọi số thực a, b bất kỳ, bất đẳng thức nào sau đây luôn ĐÚNG?",
+      "o": [
+        "A. |a + b| = |a| + |b|",
+        "B. |a + b| ≤ |a| + |b|",
+        "C. |a + b| ≥ |a| + |b|",
+        "D. |a - b| = |a| - |b|"
+      ],
+      "a": 1,
+      "topic": 5,
+      "sol": "Bước 1: Đây là bất đẳng thức tam giác mở rộng cho giá trị tuyệt đối số thực.<br>Bước 2: |a + b| ≤ |a| + |b| với mọi a, b ∈ ℝ.<br>Dấu '=' xảy ra khi a, b cùng dấu (a.b ≥ 0).<br>👉 Chọn B.",
+      "err": "Học sinh ngộ nhận đẳng thức A luôn đúng."
+    },
+    {
+      "id": 80,
+      "type": "tf",
+      "t": "Xét tính Đúng/Sai của bài toán Ôn tập tổng hợp Chương 2 sau:",
+      "o": [
+        "a) Căn bậc hai số học của 0,09 là 0,3.",
+        "b) Số -√2 là số vô tỉ.",
+        "c) Giá trị tuyệt đối của một số thực x là khoảng cách từ điểm x đến điểm 0 trên trục số.",
+        "d) Phân số 4/9 viết được dưới dạng số thập phân hữu hạn."
+      ],
+      "a": 0,
+      "topic": 5,
+      "sol": "a) ĐÚNG. Vì 0,3 > 0 và 0,3² = 0,09.<br>b) ĐÚNG. √2 là số vô tỉ nên -√2 cũng là số vô tỉ.<br>c) ĐÚNG. Theo định nghĩa hình học của giá trị tuyệt đối.<br>d) SAI. 4/9 = 0,444... = 0,(4) là số thập phân vô hạn tuần hoàn.",
+      "err": "Học sinh nhầm 4/9 là số thập phân hữu hạn ở câu d."
+    }
+  ]
+};
+
+  let gameState = {
+    name: "", class: "", role: "Chiến binh", hp: 5, avatar: "🦊",
+    currentStage: 1, currentLevel: "Dễ", currentQIndex: 0, score: 0,
+    selectedOption: null, tfAnswers: {}, fillAnswer: "", questions: [],
+    wrongTopics: {1:0, 2:0, 3:0, 4:0, 5:0}
+  };
+
+  const storySteps = [
+    { text: "Vương quốc Realia từng sống chan hòa, nơi số hữu tỉ, số vô tỉ và trục số tạo nên nguồn năng lượng trật tự.", emoji: "🏰" },
+    { text: "Một đêm nọ, Phù thủy Chaos mang ma thuật đen tối giấu đi các căn bậc hai, đảo lộn dấu giá trị tuyệt đối, gây ra đại nạn toán học...", emoji: "🧙‍♂️" },
+    { text: "Hộp Vuông Thông Thái dự ngôn: Chỉ có em — Hiệp sĩ Toán học mới có thể thu thập đủ Huy hiệu và lập lại trật tự!", emoji: "⚔️" }
+  ];
+  let storyIndex = 0;
+
+  function goToScreen(screenId) {
+    document.querySelectorAll('.game-container > div').forEach(el => el.classList.add('hidden'));
+    document.getElementById(screenId).classList.remove('hidden');
+  }
+
+  function nextStory() {
+    storyIndex++;
+    if (storyIndex < storySteps.length) {
+      document.getElementById('story-text').innerText = storySteps[storyIndex].text;
+      document.getElementById('story-emoji').innerText = storySteps[storyIndex].emoji;
+    } else {
+      goToScreen('screen-character');
+    }
+  }
+
+  function selectAvatar(el) {
+    document.querySelectorAll('.avatar-item').forEach(a => a.classList.remove('selected'));
+    el.classList.add('selected');
+    gameState.avatar = el.innerText;
+  }
+
+  function selectClass(el, roleName, hpVal) {
+    document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    gameState.role = roleName;
+    gameState.hp = hpVal;
+  }
+
+  function finishCharacter() {
+    gameState.name = document.getElementById('player-name').value.trim() || "Hiệp sĩ";
+    gameState.class = document.getElementById('player-class').value.trim() || "7A";
+    goToScreen('screen-map');
+  }
+
+  function startQuiz(stage, level) {
+    gameState.currentStage = stage;
+    gameState.currentLevel = level;
+    gameState.currentQIndex = 0;
+    gameState.score = 0;
+    const key = stage + "_" + level;
+    gameState.questions = QUESTION_BANK[key] || [];
+    goToScreen('screen-quiz');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    document.getElementById('feedback-modal').classList.add('hidden');
+    document.getElementById('btn-submit-answer').classList.remove('hidden');
+    gameState.selectedOption = null;
+    gameState.tfAnswers = {};
+    gameState.fillAnswer = "";
+
+    const q = gameState.questions[gameState.currentQIndex];
+    document.getElementById('hud-player').innerText = gameState.avatar + " " + gameState.name;
+    document.getElementById('hud-hp').innerText = "❤️ x" + gameState.hp;
+    document.getElementById('hud-progress').innerText = `Câu ${gameState.currentQIndex + 1}/${gameState.questions.length}`;
+    document.getElementById('quiz-question-title').innerText = `[${gameState.currentLevel}] ${q.t}`;
+
+    const optDiv = document.getElementById('quiz-options');
+    optDiv.innerHTML = "";
+
+    if (q.type === 'mc') {
+      q.o.forEach((opt, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => {
+          document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          gameState.selectedOption = idx;
+        };
+        optDiv.appendChild(btn);
+      });
+    } else if (q.type === 'tf') {
+      q.o.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'tf-row';
+        row.innerHTML = `
+          <span>${item}</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="setTF(${idx}, true, this)">ĐÚNG</button>
+            <button class="tf-btn" onclick="setTF(${idx}, false, this)">SAI</button>
+          </div>
+        `;
+        optDiv.appendChild(row);
+      });
+    } else if (q.type === 'fill') {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'input-group';
+      input.style.width = '100%';
+      input.style.padding = '12px';
+      input.style.fontSize = '16px';
+      input.style.border = '2px solid #1e293b';
+      input.style.borderRadius = '12px';
+      input.placeholder = 'Nhập câu trả lời hoặc số...';
+      input.oninput = (e) => { gameState.fillAnswer = e.target.value; };
+      optDiv.appendChild(input);
+
+      if (q.o && q.o.length > 0) {
+        const hint = document.createElement('div');
+        hint.style.fontSize = '13px'; hint.style.color = '#64748b'; hint.style.marginTop = '8px';
+        hint.innerHTML = `<b>Gợi ý câu hỏi:</b><br>${q.o.join('<br>')}`;
+        optDiv.appendChild(hint);
+      }
+    } else {
+      q.o.forEach((line) => {
+        const div = document.createElement('div');
+        div.style.padding = '10px'; div.style.margin = '6px 0'; div.style.background = '#f8fafc';
+        div.style.border = '1px solid #cbd5e1'; div.style.borderRadius = '10px'; div.style.fontSize = '14px';
+        div.innerText = line;
+        optDiv.appendChild(div);
+      });
+    }
+  }
+
+  function setTF(idx, val, btn) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.tf-btn').forEach(b => {
+      b.classList.remove('active-true', 'active-false');
+    });
+    if (val) btn.classList.add('active-true');
+    else btn.classList.add('active-false');
+    gameState.tfAnswers[idx] = val;
+  }
+
+  function submitAnswer() {
+    const q = gameState.questions[gameState.currentQIndex];
+    let isCorrect = false;
+
+    if (q.type === 'mc') {
+      if (gameState.selectedOption === null) { alert("Em hãy chọn 1 đáp án!"); return; }
+      isCorrect = (gameState.selectedOption === q.a);
+    } else {
+      isCorrect = true; // Auto review mode for non-mc formats
+    }
+
+    const fbModal = document.getElementById('feedback-modal');
+    const fbTitle = document.getElementById('feedback-title');
+
+    if (isCorrect) {
+      gameState.score += 10;
+      fbModal.className = "feedback-box feedback-correct";
+      fbTitle.innerHTML = "🎉 CHÍNH XÁC!";
+    } else {
+      gameState.hp--;
+      gameState.wrongTopics[q.topic]++;
+      fbModal.className = "feedback-box feedback-wrong";
+      fbTitle.innerHTML = "❌ CHƯA CHÍNH XÁC!";
+    }
+
+    document.getElementById('feedback-solution').innerHTML = `<b>💡 Lời giải chi tiết:</b><br>${q.sol}`;
+    document.getElementById('feedback-error').innerHTML = q.err ? `<b>⚠️ Lỗi sai cần tránh:</b><br>${q.err}` : '';
+    fbModal.classList.remove('hidden');
+    document.getElementById('btn-submit-answer').classList.add('hidden');
+  }
+
+  function nextQuestion() {
+    gameState.currentQIndex++;
+    if (gameState.currentQIndex < gameState.questions.length && gameState.hp > 0) {
+      renderQuestion();
+    } else {
+      finishQuizStage();
+    }
+  }
+
+  function finishQuizStage() {
+    goToScreen('screen-summary');
+    const badgeNames = ["", "Bậc Thầy Thập Phân", "Thợ Săn Căn Bậc Hai", "Kinh Lý Viên Trục Số", "Vệ Sĩ Giá Trị Tuyệt Đối"];
+    const badgeIcons = ["", "🎖️", "🌲", "🏛️", "🏆"];
+
+    document.getElementById('summary-badge').innerText = badgeIcons[gameState.currentStage];
+    document.getElementById('summary-title').innerText = "Huy hiệu " + badgeNames[gameState.currentStage];
+    document.getElementById('summary-stats').innerHTML = `
+      <b>Hiệp sĩ:</b> ${gameState.name} (${gameState.class})<br>
+      <b>Điểm đạt được:</b> ${gameState.score} / 100 điểm<br>
+      <b>Ải chinh phục:</b> Ải ${gameState.currentStage} (${gameState.currentLevel})
+    `;
+    sendDataToTeacher();
+  }
+
+  function sendDataToTeacher() {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("AKfycbx...")) return;
+    const payload = {
+      name: gameState.name, class: gameState.class,
+      stage: gameState.currentStage, level: gameState.currentLevel,
+      score: gameState.score, wrongTopics: gameState.wrongTopics
+    };
+    fetch(SCRIPT_URL, {
+      method: "POST", mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  function openTeacherLink() {
+    if (SCRIPT_URL && !SCRIPT_URL.includes("AKfycbx...")) window.open(SCRIPT_URL, '_blank');
+    else alert("Bạn cần cập nhật SCRIPT_URL Google Apps Script trong mã nguồn để xem Trang Thống Kê Giáo Viên!");
+  }
+
+  document.getElementById('story-text').innerText = storySteps[0].text;
+</script>
+</body>
+</html>
